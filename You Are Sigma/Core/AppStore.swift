@@ -19,7 +19,6 @@ class AppStore: ObservableObject {
 
     private var genToken: Int = 0
     private var generationTask: Task<Void, Never>?
-    private var pendingGeneration: (base64: String, mimeType: String, bio: String)?
 
     var isConfigured: Bool {
         !profile.name.trimmingCharacters(in: .whitespaces).isEmpty && profile.selfieData != nil
@@ -63,47 +62,19 @@ class AppStore: ObservableObject {
     }
 
     func startBackgroundGeneration() {
-        guard let selfieData = profile.selfieData else {
-            bgGenStatus = .idle
-            return
-        }
-
-        let ref = (base64: selfieData.base64EncodedString(), mimeType: profile.selfieMimeType, bio: profile.bio)
+        cancelBackgroundGeneration()
         genToken += 1
+        let token = genToken
 
-        if generationTask != nil {
-            pendingGeneration = ref
-            return
-        }
-
-        runGeneration(ref: ref, token: genToken)
-    }
-
-    private func runGeneration(ref: (base64: String, mimeType: String, bio: String), token: Int) {
         generationTask = Task {
-            await generateLooks(
-                selfieBase64: ref.base64,
-                mimeType: ref.mimeType,
-                bio: ref.bio,
-                store: self,
-                token: token,
-                getToken: { [weak self] in self?.genToken ?? -1 }
-            )
-
-            generationTask = nil
-
-            if let pending = pendingGeneration {
-                pendingGeneration = nil
-                genToken += 1
-                runGeneration(ref: pending, token: genToken)
-            }
+            print("generation started")
+            guard !Task.isCancelled, token == genToken else { return }
         }
     }
 
     func cancelBackgroundGeneration() {
         generationTask?.cancel()
         generationTask = nil
-        pendingGeneration = nil
         genToken += 1
         bgGenStatus = .idle
     }
