@@ -1,0 +1,17 @@
+schemaVersion: 1
+sessionDefaults:
+  projectPath: You Are Sigma.xcodeproj
+  scheme: You Are Sigma
+  simulatorName: iPhone 17
+  simulatorId: E41923D2-8108-495B-B9B8-ACC61B5129E5
+  simulatorPlatform: iOS Simulator
+enabledWorkflows:
+  - simulator
+  - simulator-management
+  - ui-automation
+  - utilities
+debug: false
+sentryDisabled: true
+setupPreferences:
+  platforms:
+    - iOS
