@@ -2,39 +2,36 @@ import SwiftUI
 
 struct RootView: View {
     @EnvironmentObject private var store: AppStore
-    @State private var selectedTab: Tab = .home
-
-    enum Tab: Hashable { case home, messages, photos, vault, settings }
+    @State private var selectedTab = 0
 
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack {
             TabView(selection: $selectedTab) {
-                HomeView(selectedTab: $selectedTab)
+                HomeView()
                     .tabItem { Label("Home", systemImage: "house.fill") }
-                    .tag(Tab.home)
+                    .tag(0)
 
                 MessagesView()
                     .tabItem { Label("Messages", systemImage: "message.fill") }
-                    .tag(Tab.messages)
+                    .tag(1)
 
                 PhotosView()
                     .tabItem { Label("Photos", systemImage: "photo.fill") }
-                    .tag(Tab.photos)
+                    .tag(2)
 
                 VaultView()
                     .tabItem { Label("Vault", systemImage: "creditcard.fill") }
-                    .tag(Tab.vault)
+                    .tag(3)
 
                 SettingsView()
                     .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-                    .tag(Tab.settings)
+                    .tag(4)
             }
             .tint(.sigmaGold)
 
-            LiveNotificationView(onTap: { selectedTab = .messages })
-                .padding(.top, 8)
+            LiveNotificationView()
         }
-        .preferredColorScheme(.dark)
+        .background(Color.sigmaBackground)
         .fullScreenCover(isPresented: showOnboarding) {
             OnboardingGateView()
                 .environmentObject(store)
@@ -53,4 +50,48 @@ struct RootView: View {
     RootView()
         .environmentObject(AppStore.shared)
         .preferredColorScheme(.dark)
+}
+
+// MARK: - Stubs (replaced by other implementation units)
+
+struct HomeView: View {
+    var body: some View {
+        Text("Home").foregroundStyle(.white)
+    }
+}
+
+struct MessagesView: View {
+    var body: some View {
+        Text("Messages").foregroundStyle(.white)
+    }
+}
+
+struct PhotosView: View {
+    var body: some View {
+        Text("Photos").foregroundStyle(.white)
+    }
+}
+
+struct VaultView: View {
+    var body: some View {
+        Text("Vault").foregroundStyle(.white)
+    }
+}
+
+struct SettingsView: View {
+    var body: some View {
+        Text("Settings").foregroundStyle(.white)
+    }
+}
+
+struct OnboardingGateView: View {
+    var body: some View {
+        Text("Setup").foregroundStyle(.white)
+    }
+}
+
+struct LiveNotificationView: View {
+    var body: some View {
+        EmptyView()
+    }
 }
