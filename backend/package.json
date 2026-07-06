@@ -1,0 +1,30 @@
+{
+  "name": "you-are-sigma-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "test": "OPENAI_API_KEY=test GEMINI_API_KEY=test vitest run"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "openai": "^5.3.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.30",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
